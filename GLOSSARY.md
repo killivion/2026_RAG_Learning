@@ -54,6 +54,14 @@ _Avoid_: Refusal, no-answer
 One complete choice of parser, chunker, retriever, reranker, k and prompt; the unit that is compared and frozen.
 _Avoid_: Pipeline variant, setting
 
+**LLM backend**:
+The component that turns one request (model, system prompt, user prompt, JSON schema, prompt version) into structured output. Headless Claude Code in real runs, a scripted fake in tests.
+_Avoid_: Client, provider
+
+**Notional cost**:
+What a call would cost at API list prices, as reported by the CLI. Nothing is charged on the subscription.
+_Avoid_: Cost, spend (without "notional")
+
 ## Uncertainty
 
 **Confidence signal**:

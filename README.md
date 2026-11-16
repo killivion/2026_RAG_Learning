@@ -11,7 +11,13 @@ uv sync                      # creates .venv with Python 3.12 and all dependenci
 uv run pre-commit install    # runs format, lint, types and tests before each commit
 uv run pytest                # test suite; needs no network, Docker or LLM
 uv run finbench run --config configs/smoke.yaml   # writes a run directory under runs/
+uv run finbench llm-ping     # one real Claude call through Claude Code; the second run is cached
+uv run pytest -m live        # opt-in test that makes one real LLM call
 ```
+
+## LLM calls
+
+Every LLM call goes through headless Claude Code on a Claude subscription, behind a swappable backend (`src/finbench/llm.py`, `docs/adr/0005`). Calls are cached on disk under `cache/llm/<backend>/`, keyed by model, prompts, schema and prompt version, so a rerun costs no usage and an interrupted run resumes. Reported cost is notional: list-price cost as the CLI reports it, not money spent.
 
 ## Data
 

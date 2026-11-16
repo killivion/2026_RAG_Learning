@@ -43,7 +43,8 @@ plugins = ["pydantic.mypy"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-ra"
+# Live tests are opt-in: `uv run pytest -m live`.
+addopts = "-ra -m 'not live'"
 markers = [
     "data: needs the downloaded FinanceBench data (skipped in CI)",
     "live: makes real LLM calls (opt-in only)",
