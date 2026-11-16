@@ -1,0 +1,3 @@
+parser,filings,pages,parse_seconds,evidence_pages,match_rate,mean_page_score,zero_index_rate,table_pages,table_match_rate,table_mean_page_score
+pymupdf,84,12013,33.8,189,1.0,99.54,1.0,122,1.0,99.4
+pdfplumber,84,12013,2606.7,189,0.9788,98.81,1.0,122,0.9918,99.03

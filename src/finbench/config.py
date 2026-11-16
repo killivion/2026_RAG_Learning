@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Literal
 
 import yaml
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 class Config(BaseModel):
@@ -17,6 +17,8 @@ class Config(BaseModel):
     name: str = Field(min_length=1)
     parser: Literal["pymupdf", "pdfplumber"] = "pymupdf"
     chunker: Literal["fixed", "page", "structure"] = "fixed"
+    chunk_size: int = Field(default=300, ge=1)  # words; used by the fixed chunker
+    chunk_overlap: int = Field(default=50, ge=0)  # words shared by neighbouring chunks
     retriever: Literal["bm25", "dense", "hybrid"] = "bm25"
     scope: Literal["shared", "filing"] = "shared"
     reranker: Literal["none", "cross-encoder"] = "none"
@@ -26,6 +28,12 @@ class Config(BaseModel):
     judge_model: str = "claude-haiku-5-5"
     backend: Literal["claude-code", "fake"] = "claude-code"
     max_llm_calls: int = Field(default=500, ge=0)
+
+    @model_validator(mode="after")
+    def _overlap_is_smaller_than_the_chunk(self) -> "Config":
+        if self.chunk_overlap >= self.chunk_size:
+            raise ValueError("chunk_overlap must be smaller than chunk_size")
+        return self
 
     def config_hash(self) -> str:
         """Stable short hash of every field, used to identify and freeze configs."""

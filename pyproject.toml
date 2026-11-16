@@ -7,9 +7,11 @@ authors = [
 ]
 requires-python = ">=3.12"
 dependencies = [
+    "pdfplumber>=0.11.10",
     "pydantic>=2.14.3",
     "pymupdf>=2.1",
     "pyyaml>=6.0.3",
+    "rank-bm25>=0.2.2",
     "rapidfuzz>=3.14.6",
     "typer>=0.29.1",
 ]
@@ -42,6 +44,10 @@ strict = true
 packages = ["finbench"]
 mypy_path = "src"
 plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = ["rank_bm25"]
+ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

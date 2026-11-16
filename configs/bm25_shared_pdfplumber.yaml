@@ -1,0 +1,6 @@
+# As bm25_shared, parsed with pdfplumber (parser comparison, ticket 07).
+name: bm25-shared-pdfplumber
+parser: pdfplumber
+retriever: bm25
+scope: shared
+backend: fake

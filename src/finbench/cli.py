@@ -30,8 +30,13 @@ from finbench.llm import (
     LLMBackendError,
     LLMRequest,
 )
-from finbench.parsing import ParserName, check_alignment, parse_filing
-from finbench.runner import run_experiment
+from finbench.parsing import (
+    ParserName,
+    check_alignment,
+    parse_filing,
+    write_parser_comparison,
+)
+from finbench.runner import TestSplitRefused, run_experiment
 
 app = typer.Typer(no_args_is_help=True, add_completion=False)
 
@@ -46,6 +51,10 @@ def run(
     config: Annotated[Path, typer.Option(exists=True, dir_okay=False, help="Config YAML")],
     split: Annotated[Split, typer.Option(help="Question split")] = Split.DEV,
     runs_root: Annotated[Path, typer.Option(help="Where run directories go")] = Path("runs"),
+    root: Annotated[Path, typer.Option(help="Project root holding data/ and pdfs/")] = Path("."),
+    final: Annotated[
+        bool, typer.Option("--final", help="Allow the test split, for a frozen config only")
+    ] = False,
 ) -> None:
     """Run one config on one split and write a run directory."""
     try:
@@ -53,7 +62,13 @@ def run(
     except (ValidationError, yaml.YAMLError) as err:
         typer.echo(f"Invalid config {config}:\n{err}", err=True)
         raise typer.Exit(code=2) from err
-    result = run_experiment(cfg, split, runs_root)
+    try:
+        result = run_experiment(cfg, split, runs_root, root, final=final)
+    except TestSplitRefused as err:
+        typer.echo(f"Refused: {err}", err=True)
+        raise typer.Exit(code=1) from err
+    for name, value in result.metrics.items():
+        typer.echo(f"{name}: {value:.4g}")
     typer.echo(f"Run written to {result.run_dir}")
 
 
@@ -153,10 +168,12 @@ def parse_check(
     implementation = parser.make()
     pages = {}
     for filing in sorted({q.filing for q in questions}):
-        pages[filing] = parse_filing(implementation, root, filing)
+        pages[filing] = parse_filing(implementation, root, filing).pages
     report = check_alignment(questions, pages)
     typer.echo(f"Parser: {parser}, {len(pages)} filings, {len(report.rows)} evidence pages")
     typer.echo(f"Match rate: {report.match_rate:.1%}")
+    tables = report.table_pages()
+    typer.echo(f"Match rate on {len(tables.rows)} table pages: {tables.match_rate:.1%}")
     typer.echo(f"Zero-indexing confirmed (page n beats n-1 and n+1): {report.zero_index_rate:.1%}")
     typer.echo("Worst pages (evidence text score / full page score / best neighbour score):")
     for row in report.worst(worst):
@@ -164,3 +181,11 @@ def parse_check(
             f"  {row.question_id} {row.filing} page {row.page}: "
             f"{row.text_score:.1f} / {row.page_score:.1f} / {row.neighbor_score:.1f}"
         )
+
+
+@app.command()
+def parse_compare(root: RootOption = Path(".")) -> None:
+    """Score every parser against the evidence pages and write the comparison table."""
+    path = write_parser_comparison(root)
+    typer.echo(path.read_text(encoding="utf-8"))
+    typer.echo(f"Written to {path}")

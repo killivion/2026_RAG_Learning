@@ -1,0 +1,5 @@
+# BM25 restricted to the filing each question names, fixed-size chunks.
+name: bm25-filing
+retriever: bm25
+scope: filing
+backend: fake

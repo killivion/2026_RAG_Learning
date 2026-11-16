@@ -1,0 +1,3 @@
+# Frozen configs: the only configs allowed to run on the test split (docs/adr/0001).
+# One config hash per line, with the config name as a comment. Add a config here only
+# after every choice has been made on dev, and commit the change before the final run.

@@ -1,0 +1,6 @@
+# As bm25_filing, parsed with pdfplumber (parser comparison, ticket 07).
+name: bm25-filing-pdfplumber
+parser: pdfplumber
+retriever: bm25
+scope: filing
+backend: fake

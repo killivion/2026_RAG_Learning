@@ -40,6 +40,10 @@ The order of pages derived from a chunk ranking, where each page takes the score
 A page ranking contains a hit at k when any evidence page of the question is among its top k pages.
 _Avoid_: Match
 
+**Candidates**:
+The top 50 chunks a retriever returns for one question. They are cached per question, and reranking and conformal retrieval work on them without retrieving again.
+_Avoid_: Results, hits
+
 **Shared index**:
 One index over many filings, searched without knowing which filing the question is about.
 _Avoid_: Global store
@@ -68,6 +72,12 @@ _Avoid_: Client, provider
 **Notional cost**:
 What a call would cost at API list prices, as reported by the CLI. Nothing is charged on the subscription.
 _Avoid_: Cost, spend (without "notional")
+
+**Frozen config**:
+A config whose hash is in the committed `configs/frozen.txt`. Only a frozen config may run on the test split.
+
+**Final run**:
+A run on the test split, made once per frozen config with the final flag, for reporting only.
 
 ## Uncertainty
 

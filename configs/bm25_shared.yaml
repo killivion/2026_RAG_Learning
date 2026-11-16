@@ -1,0 +1,5 @@
+# BM25 over one shared index of all 84 filings, fixed-size chunks.
+name: bm25-shared
+retriever: bm25
+scope: shared
+backend: fake
