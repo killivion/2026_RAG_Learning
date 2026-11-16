@@ -1,6 +1,6 @@
 # FinanceBench data: non-commercial, never committed
-data/
-pdfs/
+/data/
+/pdfs/
 
 # Python
 __pycache__/
@@ -12,5 +12,5 @@ __pycache__/
 
 # Secrets and local runs
 .env
-cache/
-runs/
+/cache/
+/runs/

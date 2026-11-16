@@ -11,6 +11,8 @@ uv sync                      # creates .venv with Python 3.12 and all dependenci
 uv run pre-commit install    # runs format, lint, types and tests before each commit
 uv run pytest                # test suite; needs no network, Docker or LLM
 uv run finbench run --config configs/smoke.yaml   # writes a run directory under runs/
+uv run finbench download     # FinanceBench questions, annotations and 84 filings (about 165 MB)
+uv run finbench data-summary # counts of questions, companies, filings and evidence pages
 uv run finbench llm-ping     # one real Claude call through Claude Code; the second run is cached
 uv run pytest -m live        # opt-in test that makes one real LLM call
 ```
@@ -21,4 +23,6 @@ Every LLM call goes through headless Claude Code on a Claude subscription, behin
 
 ## Data
 
-FinanceBench (Islam et al., 2023, patronus-ai/financebench) is used for non-commercial research only. Its questions and filings are downloaded locally and are never committed to this repository.
+FinanceBench (Islam et al., 2023, patronus-ai/financebench) is used for non-commercial research only. `finbench download` fetches the 150 questions, the document metadata, the 16 human-annotated completion files and the 84 filings into the git-ignored `data/` and `pdfs/` folders. They are never committed to this repository.
+
+Every file is checked against `src/finbench/financebench_manifest.json`, which pins one upstream commit and holds each file's git blob hash. A rerun skips files that match and stops on any mismatch.

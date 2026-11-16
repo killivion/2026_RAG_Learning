@@ -13,7 +13,7 @@ One FinanceBench item: a natural-language question about exactly one filing, wit
 _Avoid_: Query (reserve for what the retriever receives), sample
 
 **Evidence page**:
-A page of the question's filing that a human annotator marked as containing the answer, zero-indexed. A question has one to three of them, always in the same filing.
+A page of the question's filing that a human annotator marked as containing the answer, zero-indexed. A question has one to three evidence items, always in the same filing. Two items can sit on the same page, so metrics count distinct pages.
 _Avoid_: Gold chunk, source page
 
 **Dev split / Test split**:

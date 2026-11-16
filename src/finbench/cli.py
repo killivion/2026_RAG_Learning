@@ -11,6 +11,7 @@ import yaml
 from pydantic import ValidationError
 
 from finbench.config import load_config
+from finbench.dataset import ChecksumMismatch, Manifest, download, load_questions, summarize
 from finbench.llm import (
     CachedBackend,
     ClaudeCodeBackend,
@@ -79,3 +80,30 @@ def llm_ping(
         typer.echo(f"LLM call failed: {err}", err=True)
         raise typer.Exit(code=1) from err
     typer.echo(json.dumps(asdict(response), indent=2))
+
+
+RootOption = Annotated[Path, typer.Option(help="Project root holding data/ and pdfs/")]
+
+
+@app.command("download")
+def download_command(root: RootOption = Path(".")) -> None:
+    """Download the FinanceBench files and filings, checking each against its checksum."""
+    try:
+        report = download(
+            root, Manifest.committed(), on_fetch=lambda path: typer.echo(f"Fetching {path}")
+        )
+    except ChecksumMismatch as err:
+        typer.echo(f"Checksum mismatch: {err}", err=True)
+        raise typer.Exit(code=1) from err
+    typer.echo(f"Downloaded {report.downloaded} files, skipped {report.skipped} already present")
+
+
+@app.command()
+def data_summary(root: RootOption = Path(".")) -> None:
+    """Print the dataset's counts."""
+    summary = summarize(load_questions(root))
+    typer.echo(f"Questions: {summary.questions}")
+    typer.echo(f"Companies: {summary.companies}")
+    typer.echo(f"Filings: {summary.filings}")
+    typer.echo(f"Question types: {summary.question_types}")
+    typer.echo(f"Questions by number of evidence pages: {summary.evidence_page_counts}")
