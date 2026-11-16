@@ -16,6 +16,9 @@ These replace the parent folder's documentation rules for this project only:
 - Every choice is made on the dev split; the test split is only for reporting (`docs/adr/0001`).
 - Never commit FinanceBench data or PDFs (private repo, non-commercial data).
 - Commit and push to `origin` at the end of each completed ticket or milestone.
+- Start a job longer than a minute with `uv run --no-sync python -m finbench.cli <command>`. The plain `finbench` launcher is locked while it runs, which blocks `uv add`, `uv sync` and the pre-commit hook.
+- Reported numbers come from `results/`: after new runs, `finbench summarize` rewrites `results/retrieval_runs.csv`, and README, tickets and learning notes cite that file.
+- Review means the `reviewer` agent, which applies `CODING_STANDARDS.md`. Test seams are fixed in the spec's "Testing Decisions".
 
 ## Agent skills
 

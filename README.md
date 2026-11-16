@@ -16,6 +16,7 @@ uv run finbench split        # only needed if splits/financebench.json is missin
 uv run finbench parse-check  # parses the filings and checks pages against evidence pages
 uv run finbench run --config configs/bm25_filing.yaml   # retrieval run on dev; writes runs/<run>/
 uv run finbench parse-compare  # both parsers; pdfplumber needs about 45 minutes
+uv run finbench summarize    # rewrites results/retrieval_runs.csv from runs/
 uv run finbench llm-ping     # one real Claude call through Claude Code; the second run is cached
 uv run pytest -m live        # opt-in test that makes one real LLM call
 ```
@@ -37,7 +38,7 @@ First baseline on dev (51 questions): BM25 (`rank-bm25`, `docs/adr/0003`) over 3
 | BM25, shared index | 0.098 | 0.118 | 0.157 | 0.157 | 0.114 | 0.30 s |
 | BM25, filing-scoped search | 0.137 | 0.294 | 0.412 | 0.333 | 0.211 | 0.003 s |
 
-These are dev numbers from one run each, without confidence intervals yet. BM25 is weak here because the questions name metrics in words that the evidence pages (mostly financial statements) do not contain.
+The full table, with every k and the run directory behind each row, is `results/retrieval_runs.csv`; `finbench summarize` rewrites it from the run directories. These are dev numbers from one run each, without confidence intervals yet. BM25 is weak here because the questions name metrics in words that the evidence pages (mostly financial statements) do not contain.
 
 ## Evaluation protocol
 

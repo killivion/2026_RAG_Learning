@@ -7,7 +7,7 @@
 - A dense retriever behind the retriever interface, supporting both scopes.
 - Dev runs report BM25 and dense side by side.
 
-**Blocked by:** 08
+**Blocked by:** 01 (Docker engine running), 08
 
 **Status:** ready-for-agent
 

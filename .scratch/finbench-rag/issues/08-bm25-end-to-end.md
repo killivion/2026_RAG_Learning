@@ -27,7 +27,7 @@ A run can be retrieval-only (no generation).
   | `bm25-shared` | 0.098 | 0.118 | 0.118 | 0.157 | 0.157 | 0.114 | 0.119 | 0.30 s |
   | `bm25-filing` | 0.137 | 0.196 | 0.294 | 0.412 | 0.333 | 0.211 | 0.238 | 0.003 s |
 
-  Run directories: `runs/20261116T185955249647Z_bm25-shared_dev_1024dc9c32ad` and `runs/20261116T190026127454Z_bm25-filing_dev_c4f7d7fb3a29` (git-ignored; rerun with the configs in `configs/`).
+  These numbers are in `results/retrieval_runs.csv`, which names the run directory of each row.
 - **The numbers are low, and that was checked.** As a control, each of the first 25 dev questions was run with its own evidence text as the query: the evidence page then ranks first to fourth every time. So parsing, chunking, page numbers and metrics line up. The weak part is the query: FinanceBench questions are long and name a metric ("fixed asset turnover ratio"), while the evidence page is a balance sheet that never uses those words. For 15 of those 25 questions the evidence page is not among the top 50 chunks at all. This is the baseline that dense retrieval (ticket 10) has to beat.
 - **Design choices:**
   - Chunks are word windows that may cross page boundaries. A chunk that covers two pages gives both pages its score, so the two pages tie; ties keep page order.

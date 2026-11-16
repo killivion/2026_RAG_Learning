@@ -37,6 +37,7 @@ from finbench.parsing import (
     write_parser_comparison,
 )
 from finbench.runner import TestSplitRefused, run_experiment
+from finbench.summary import summarize_runs
 
 app = typer.Typer(no_args_is_help=True, add_completion=False)
 
@@ -189,3 +190,21 @@ def parse_compare(root: RootOption = Path(".")) -> None:
     path = write_parser_comparison(root)
     typer.echo(path.read_text(encoding="utf-8"))
     typer.echo(f"Written to {path}")
+
+
+@app.command("summarize")
+def summarize_command(
+    runs_root: Annotated[Path, typer.Option(help="Where run directories are")] = Path("runs"),
+    out: Annotated[Path, typer.Option(help="Results table to write")] = Path(
+        "results/retrieval_runs.csv"
+    ),
+) -> None:
+    """Write the committed results table: the latest run of every config and split."""
+    path = summarize_runs(runs_root, out)
+    typer.echo(path.read_text(encoding="utf-8"))
+    typer.echo(f"Written to {path}")
+
+
+if __name__ == "__main__":
+    # `python -m finbench.cli` runs without the finbench.exe launcher (see CLAUDE.md, long jobs).
+    app()

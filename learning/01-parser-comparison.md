@@ -36,7 +36,7 @@ BM25 on dev, 51 questions, 300-word chunks with 50 words overlap:
 | Filing-scoped search | PyMuPDF | 0.294 | 0.412 | 0.211 |
 | Filing-scoped search | pdfplumber | 0.275 | 0.373 | 0.205 |
 
-Runs: `runs/20261116T185955249647Z_bm25-shared_dev_1024dc9c32ad`, `runs/20261116T190026127454Z_bm25-filing_dev_c4f7d7fb3a29`, `runs/20261116T190040449658Z_bm25-shared-pdfplumber_dev_a39c2dbb7f11`, `runs/20261116T190112373802Z_bm25-filing-pdfplumber_dev_13ab2d7d2c9c`.
+Every number in this table is in `results/retrieval_runs.csv`, which also names each run directory.
 
 **Decision: PyMuPDF is the default parser.** Retrieval is the same within noise: the largest gap, recall@10 with filing-scoped search, is two questions out of 51. PyMuPDF is about 77 times faster, which matters every time the cache is rebuilt.
 
