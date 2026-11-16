@@ -20,6 +20,13 @@ _Avoid_: Gold chunk, source page
 The two frozen, disjoint sets of questions, grouped so that no company appears in both. Dev is for every choice; test is only for reporting.
 _Avoid_: Validation set, holdout (use "test")
 
+**Parser**:
+The component that turns a filing's PDF into one text per page, zero-indexed like evidence pages.
+_Avoid_: Extractor, loader
+
+**Alignment check**:
+The fuzzy match of every evidence page's FinanceBench text against the parsed page with the same number. It confirms that parsed pages and evidence pages count pages the same way.
+
 ## Retrieval
 
 **Chunk**:

@@ -9,14 +9,19 @@ Requirements: [uv](https://docs.astral.sh/uv/) and git. Docker (for pgvector) an
 ```bash
 uv sync                      # creates .venv with Python 3.12 and all dependencies
 uv run pre-commit install    # runs format, lint, types and tests before each commit
-uv run pytest                # test suite; needs no network, Docker or LLM
+uv run pytest -m "not data"  # test suite without the downloaded data; no network, Docker or LLM
 uv run finbench run --config configs/smoke.yaml   # writes a run directory under runs/
 uv run finbench download     # FinanceBench questions, annotations and 84 filings (about 165 MB)
 uv run finbench data-summary # counts of questions, companies, filings and evidence pages
 uv run finbench split        # only needed if splits/financebench.json is missing
+uv run finbench parse-check  # parses the filings and checks pages against evidence pages
 uv run finbench llm-ping     # one real Claude call through Claude Code; the second run is cached
 uv run pytest -m live        # opt-in test that makes one real LLM call
 ```
+
+## Parsing
+
+Filings are parsed page by page with zero-indexed page numbers, behind one parser interface, and cached per parser and filing under `cache/parsed/`. `finbench parse-check` fuzzy-matches every evidence page's FinanceBench text against the parsed page with the same number. With PyMuPDF, all 189 evidence pages match (similarity of at least 90 of 100), and every one matches page n better than pages n-1 and n+1, which confirms the zero-indexing. FinanceBench's texts were very likely extracted with PyMuPDF too, so this confirms page alignment rather than parsing quality.
 
 ## Evaluation protocol
 

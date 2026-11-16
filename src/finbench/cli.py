@@ -30,6 +30,7 @@ from finbench.llm import (
     LLMBackendError,
     LLMRequest,
 )
+from finbench.parsing import ParserName, check_alignment, parse_filing
 from finbench.runner import run_experiment
 
 app = typer.Typer(no_args_is_help=True, add_completion=False)
@@ -138,4 +139,28 @@ def split_command(
         typer.echo(
             f"{split}: {summary.questions} questions, {summary.companies} companies, "
             f"{summary.filings} filings, types {summary.question_types}"
+        )
+
+
+@app.command()
+def parse_check(
+    parser: Annotated[ParserName, typer.Option(help="Parser to check")] = ParserName.PYMUPDF,
+    root: RootOption = Path("."),
+    worst: Annotated[int, typer.Option(help="How many of the worst pages to list")] = 10,
+) -> None:
+    """Parse every filing and report how well its pages match the evidence pages."""
+    questions = load_questions(root)
+    implementation = parser.make()
+    pages = {}
+    for filing in sorted({q.filing for q in questions}):
+        pages[filing] = parse_filing(implementation, root, filing)
+    report = check_alignment(questions, pages)
+    typer.echo(f"Parser: {parser}, {len(pages)} filings, {len(report.rows)} evidence pages")
+    typer.echo(f"Match rate: {report.match_rate:.1%}")
+    typer.echo(f"Zero-indexing confirmed (page n beats n-1 and n+1): {report.zero_index_rate:.1%}")
+    typer.echo("Worst pages (evidence text score / full page score / best neighbour score):")
+    for row in report.worst(worst):
+        typer.echo(
+            f"  {row.question_id} {row.filing} page {row.page}: "
+            f"{row.text_score:.1f} / {row.page_score:.1f} / {row.neighbor_score:.1f}"
         )
