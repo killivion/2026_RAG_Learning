@@ -1,0 +1,16 @@
+# FinanceBench data: non-commercial, never committed
+data/
+pdfs/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# Secrets and local runs
+.env
+cache/
+runs/
