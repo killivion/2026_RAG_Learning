@@ -1,6 +1,6 @@
 # finbench-rag
 
-`PLAN.md` is the source of truth for scope and milestones.
+`.scratch/finbench-rag/spec.md` is the source of truth for scope and milestones. Its tickets are in `.scratch/finbench-rag/issues/`. Work the lowest-numbered unblocked `ready-for-agent` ticket.
 
 ## Overrides of the parent CLAUDE.md
 
@@ -9,7 +9,7 @@ These replace the parent folder's documentation rules for this project only:
 - **No presentation notebook.** `README.md` is the technical report (M5).
 - **Decisions** go into `docs/adr/` (only hard-to-reverse ones) and **vocabulary** into `GLOSSARY.md`. Small choices live in config.
 - **"Every change updates docs"** here means: README.md when the report changes, GLOSSARY.md for new terms, an ADR for a new hard-to-reverse decision.
-- **"Full review"** checks code, README, PLAN, GLOSSARY, ADRs and `learning/` for consistency.
+- **"Full review"** checks code, README, the spec, GLOSSARY, ADRs and `learning/` for consistency.
 
 ## Project rules
 
