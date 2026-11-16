@@ -1,0 +1,3 @@
+# Smallest valid config; every other field takes its default.
+name: smoke
+backend: fake

@@ -1,0 +1,50 @@
+[project]
+name = "finbench"
+version = "0.1.0"
+description = "Retrieval-augmented QA over SEC filings, evaluated on FinanceBench"
+authors = [
+    { name = "killivion", email = "dievteilederexodia@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "pydantic>=2.14.3",
+    "pyyaml>=6.0.3",
+    "typer>=0.29.1",
+]
+
+[project.scripts]
+finbench = "finbench.cli:app"
+
+[build-system]
+requires = ["uv_build>=0.13.8,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "mypy>=2.4.1",
+    "pre-commit>=4.7.0",
+    "pytest>=9.2.0",
+    "ruff>=0.17.5",
+    "types-pyyaml>=6.0.12.20261113",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF"]
+
+[tool.mypy]
+strict = true
+packages = ["finbench"]
+mypy_path = "src"
+plugins = ["pydantic.mypy"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+markers = [
+    "data: needs the downloaded FinanceBench data (skipped in CI)",
+    "live: makes real LLM calls (opt-in only)",
+]
