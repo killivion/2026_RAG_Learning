@@ -207,6 +207,11 @@ A Python research codebase, driven from a command line, that:
   - About 52 numeric gold answers.
   - 16 human-annotated completion files of 150 rows each.
   - No LICENSE file in the repo.
+- **Split facts (2026-11-16, `splits/financebench.json`, seed 0):**
+  - Dev: 51 questions, 10 companies, 27 filings, question types 17/17/17.
+  - Test: 99 questions, 22 companies, 57 filings, question types 33/33/33.
+  - No company is in both splits.
+  - Dev companies: AMD, Activision Blizzard, American Express, American Water Works, Block, General Mills, JPMorgan, MGM Resorts, Paypal, PepsiCo.
 - **Known limitations to state in the report:**
   - n=150, so report CIs;
   - questions are clear-cut by design;

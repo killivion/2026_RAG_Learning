@@ -11,7 +11,17 @@ import yaml
 from pydantic import ValidationError
 
 from finbench.config import load_config
-from finbench.dataset import ChecksumMismatch, Manifest, download, load_questions, summarize
+from finbench.dataset import (
+    ChecksumMismatch,
+    Manifest,
+    Split,
+    SplitExists,
+    download,
+    load_questions,
+    load_split,
+    summarize,
+    write_split,
+)
 from finbench.llm import (
     CachedBackend,
     ClaudeCodeBackend,
@@ -20,7 +30,7 @@ from finbench.llm import (
     LLMBackendError,
     LLMRequest,
 )
-from finbench.runner import Split, run_experiment
+from finbench.runner import run_experiment
 
 app = typer.Typer(no_args_is_help=True, add_completion=False)
 
@@ -107,3 +117,25 @@ def data_summary(root: RootOption = Path(".")) -> None:
     typer.echo(f"Filings: {summary.filings}")
     typer.echo(f"Question types: {summary.question_types}")
     typer.echo(f"Questions by number of evidence pages: {summary.evidence_page_counts}")
+
+
+@app.command("split")
+def split_command(
+    root: RootOption = Path("."),
+    force: Annotated[
+        bool,
+        typer.Option(help="Overwrite the frozen split. A protocol violation (ADR-0001)."),
+    ] = False,
+) -> None:
+    """Make the frozen dev/test split, grouped by company, and print each side's summary."""
+    try:
+        write_split(root, force=force)
+    except SplitExists as err:
+        typer.echo(f"{err}. The split is frozen; see docs/adr/0001.", err=True)
+        raise typer.Exit(code=1) from err
+    for split in Split:
+        summary = summarize(load_split(root, split))
+        typer.echo(
+            f"{split}: {summary.questions} questions, {summary.companies} companies, "
+            f"{summary.filings} filings, types {summary.question_types}"
+        )

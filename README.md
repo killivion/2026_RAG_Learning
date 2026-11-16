@@ -13,9 +13,14 @@ uv run pytest                # test suite; needs no network, Docker or LLM
 uv run finbench run --config configs/smoke.yaml   # writes a run directory under runs/
 uv run finbench download     # FinanceBench questions, annotations and 84 filings (about 165 MB)
 uv run finbench data-summary # counts of questions, companies, filings and evidence pages
+uv run finbench split        # only needed if splits/financebench.json is missing
 uv run finbench llm-ping     # one real Claude call through Claude Code; the second run is cached
 uv run pytest -m live        # opt-in test that makes one real LLM call
 ```
+
+## Evaluation protocol
+
+The 150 questions are split once into dev (51 questions, 10 companies) and test (99 questions, 22 companies). The split is grouped by company, so no company's filings are both tuned on and tested on, and each question type has the same share on both sides (`docs/adr/0001`). It is committed as `splits/financebench.json` and frozen: `finbench split` refuses to overwrite it. That file is the source of truth; the seed in it only records how it was made. `--force` exists, but using it after any dev result has been seen is a protocol violation, because the test questions would no longer be held out.
 
 ## LLM calls
 

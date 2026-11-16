@@ -5,7 +5,8 @@ from typer.testing import CliRunner
 
 from finbench.cli import app
 from finbench.config import Config
-from finbench.runner import Split, run_experiment
+from finbench.dataset import Split
+from finbench.runner import run_experiment
 
 SMOKE = Path(__file__).parents[1] / "configs" / "smoke.yaml"
 

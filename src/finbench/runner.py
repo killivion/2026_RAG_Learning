@@ -4,16 +4,11 @@ import json
 import subprocess
 from dataclasses import dataclass
 from datetime import UTC, datetime
-from enum import StrEnum
 from pathlib import Path
 from typing import Any
 
 from finbench.config import Config
-
-
-class Split(StrEnum):
-    DEV = "dev"
-    TEST = "test"
+from finbench.dataset import Split
 
 
 @dataclass(frozen=True)
