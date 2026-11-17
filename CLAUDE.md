@@ -15,6 +15,16 @@ The doc layout and working rules are in the parent folder's `CLAUDE.md`. This fi
 - Reported numbers come from `results/`: after new runs, `finbench summarize` rewrites `results/retrieval_runs.csv`, and README, tickets and learning notes cite that file.
 - Test seams are fixed in the spec's "Testing Decisions".
 
+## Context budget
+
+Keep a session well under 300k tokens.
+
+- **One ticket per session.** A ticket ends with commit, push and a short ticket comment: decisions, gotchas and pointers, with numbers left in `results/`. That comment is the handoff. Then offer the next ticket as a new session instead of starting it here.
+- **Delegate output-heavy work** (data probes, real-data checks, comparisons across configs) to a subagent that returns only the numbers.
+- **Edit in place.** Change existing files with Edit; use Write only to create a file. Keep each shell call to one command or one script file.
+- **Format once:** run `ruff format` on the changed files right before the commit.
+- **Read narrowly.** One file per read, in line ranges where possible; trim command output to the lines needed (`| tail`, `-q`, `sed -n`, or a script that prints only the fields).
+
 ## Agent skills
 
 ### Issue tracker

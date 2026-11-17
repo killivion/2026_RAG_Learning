@@ -1,6 +1,8 @@
 # Notes
 
-My notes for learning and explaining this project, for example in an interview. Each concept gets one section, a learning note. Claude drafts it at the end of a milestone and I rewrite it in my own words; the rewriting is where the learning happens. Vocabulary follows `GLOSSARY.md`, and decisions link to `docs/adr/` instead of repeating them.
+My notes for learning and explaining this project, for example in an interview. Each concept gets one section, a learning note. Claude drafts it at the end of a milestone and I rewrite it in my own words; the rewriting is where the learning happens. Vocabulary follows `GLOSSARY.md`, and decisions link to `docs/adr/` instead of repeating them. "What the experiment showed" gives the result in a sentence or two and links to `results/` for the numbers.
+
+To practise, run `/mattpocock-skills:grill-me` and ask to be quizzed on one section of this file.
 
 ## Pitch
 
@@ -28,23 +30,9 @@ The alignment score alone would have been a biased criterion. PyMuPDF's scores a
 
 ### What the experiment showed
 
-Alignment and speed, all 84 filings and 189 evidence pages (`results/parser_comparison.csv`):
+Both parsers confirm zero-indexing on all 189 evidence pages. PyMuPDF matches all of them and parses the 84 filings in 34 s; pdfplumber matches 97.9% and takes 43 minutes (`results/parser_comparison.csv`).
 
-| Parser | Match rate | Mean page score | Match rate on 122 table pages | Zero-indexing confirmed | Parse time |
-|---|---|---|---|---|---|
-| PyMuPDF | 100% | 99.5 | 100% | 100% | 34 s |
-| pdfplumber | 97.9% | 98.8 | 99.2% | 100% | 2,607 s (43 min) |
-
-BM25 on dev, 51 questions, 300-word chunks with 50 words overlap:
-
-| Scope | Parser | recall@5 | recall@10 | MRR |
-|---|---|---|---|---|
-| Shared index | PyMuPDF | 0.118 | 0.157 | 0.114 |
-| Shared index | pdfplumber | 0.118 | 0.157 | 0.112 |
-| Filing-scoped search | PyMuPDF | 0.294 | 0.412 | 0.211 |
-| Filing-scoped search | pdfplumber | 0.275 | 0.373 | 0.205 |
-
-Every number in this table is in `results/retrieval_runs.csv`, which also names each run directory.
+recall@10 is 0.157 for both parsers on the shared index, and 0.412 (PyMuPDF) against 0.373 (pdfplumber) with filing-scoped search. All BM25 numbers are in `results/retrieval_runs.csv`.
 
 **Decision: PyMuPDF is the default parser.** Retrieval is the same within noise: the largest gap, recall@10 with filing-scoped search, is two questions out of 51. PyMuPDF is about 77 times faster, which matters every time the cache is rebuilt.
 
