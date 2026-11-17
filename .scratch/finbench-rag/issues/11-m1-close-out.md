@@ -12,6 +12,6 @@
 **Status:** ready-for-agent
 
 - [ ] Results table committed, and every number traces back to a run directory
-- [ ] Each learning note is a `NOTES.md` section with: what it is, why it is used here, what the experiment showed, interview questions
+- [ ] Each learning note follows the `NOTES.md` template in `~/.claude/CLAUDE.md`
 - [ ] Glossary and ADRs are consistent with the code (full-review style check)
 - [ ] Everything committed and pushed; the user is reminded to ticket M2

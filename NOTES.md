@@ -1,6 +1,6 @@
 # Notes
 
-My notes for learning and explaining this project, for example in an interview. Each concept gets one section, a learning note. Claude drafts it at the end of a milestone and I rewrite it in my own words; the rewriting is where the learning happens. Vocabulary follows `GLOSSARY.md`, and decisions link to `docs/adr/` instead of repeating them. "What the experiment showed" gives the result in a sentence or two and links to `results/` for the numbers.
+My notes for learning and explaining this project, for example in an interview. The template and rules are in `~/.claude/CLAUDE.md`. Here, "What the experiment showed" gives the result in a sentence or two and links to `results/` for the numbers.
 
 To practise, run `/mattpocock-skills:grill-me` and ask to be quizzed on one section of this file.
 
@@ -42,13 +42,36 @@ Limits of this result:
 - BM25 only counts words. It cannot tell whether a table's rows and columns stay readable, and that may matter for the generator. If table questions fail in M2 because of garbled tables, this choice should be looked at again.
 - A "table page" is defined by a rule of thumb: at least a fifth of the page's tokens are numbers.
 
+### Sources
+
+- PyMuPDF documentation: https://pymupdf.readthedocs.io/
+- pdfplumber: https://github.com/jsvine/pdfplumber
+- FinanceBench (questions, evidence pages and page texts): https://github.com/patronus-ai/financebench
+- This project: ticket 07 (`.scratch/finbench-rag/issues/07-pdfplumber-parser-comparison.md`), `results/parser_comparison.csv`, `results/retrieval_runs.csv`
+
 ### Interview questions
 
-- Q: Why not just pick the parser with the higher match rate against the benchmark's text?
-  A: The benchmark's text was very likely produced by one of the two parsers, so that measure rewards agreement with it, not quality. I used it only to confirm page numbering and chose on dev retrieval and parse time.
-- Q: How do you know your page numbers match the labels?
-  A: For every evidence page, the benchmark's page text matches parsed page n far better than pages n-1 and n+1 (about 95 or more against at most about 53 out of 100). That holds for all 189 evidence pages with both parsers.
-- Q: Is a two-question difference on 51 questions meaningful?
-  A: No. With 51 questions, one question is two percentage points. I treat the parsers as tied on retrieval.
-- Q: What could change this decision later?
-  A: Evidence from generation that tables are garbled, for example table-heavy questions failing in the oracle condition, where retrieval cannot be the cause.
+- **Q:** Why not just pick the parser with the higher match rate against the benchmark's text?
+  <details><summary>Answer</summary>
+
+  The benchmark's text was very likely produced by one of the two parsers, so that measure rewards agreement with it, not quality. I used it only to confirm page numbering and chose on dev retrieval and parse time.
+
+  </details>
+- **Q:** How do you know your page numbers match the labels?
+  <details><summary>Answer</summary>
+
+  For every evidence page, the benchmark's page text matches parsed page n far better than pages n-1 and n+1 (about 95 or more against at most about 53 out of 100). That holds for all 189 evidence pages with both parsers.
+
+  </details>
+- **Q:** Is a two-question difference on 51 questions meaningful?
+  <details><summary>Answer</summary>
+
+  No. With 51 questions, one question is two percentage points. I treat the parsers as tied on retrieval.
+
+  </details>
+- **Q:** What could change this decision later?
+  <details><summary>Answer</summary>
+
+  Evidence from generation that tables are garbled, for example table-heavy questions failing in the oracle condition, where retrieval cannot be the cause.
+
+  </details>

@@ -2,12 +2,11 @@
 
 `.scratch/finbench-rag/spec.md` is the source of truth for scope and milestones. Its tickets are in `.scratch/finbench-rag/issues/`. Work the lowest-numbered unblocked `ready-for-agent` ticket.
 
-The doc layout and working rules are in the parent folder's `CLAUDE.md`. This file adds what only this project needs.
+The workflow, doc layout and `NOTES.md` template are in `~/.claude/CLAUDE.md`. This file adds what only this project needs.
 
 ## Project rules
 
 - `README.md` is the technical report (M5). There is no presentation notebook.
-- `NOTES.md` opens with the two-minute pitch. At the end of each milestone, update the pitch and draft one learning note (a section) per new concept; I rewrite the drafts in my own words.
 - Every choice is made on the dev split; the test split is only for reporting (`docs/adr/0001`).
 - Never commit FinanceBench data or PDFs (private repo, non-commercial data).
 - Commit and push to `origin` at the end of each completed ticket or milestone.
