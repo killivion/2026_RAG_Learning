@@ -20,7 +20,7 @@ A Python research codebase, driven from a command line, that:
 4. Grades answers with a numeric checker and an LLM judge. The judge is validated against FinanceBench's human-annotated completions, without leakage.
 5. Runs configs as cached, resumable experiments. Each run writes a self-contained run directory, and test-split runs are blocked unless the config is frozen.
 6. Reports retrieval metrics, accuracy, notional cost and latency, paired bootstrap CIs and McNemar tests, calibration, risk-coverage curves and conformal retrieval.
-7. Ends with a README written as a short technical report and a `learning/` folder with one note per concept.
+7. Ends with a README written as a short technical report and a `NOTES.md` with one learning note per concept.
 
 ### Research questions
 
@@ -118,7 +118,7 @@ A Python research codebase, driven from a command line, that:
 55. As a reader of the repo, I want the README to open with results tables, then methods, limitations and reproduction steps, so that I get the findings in two minutes.
 56. As the researcher, I want figures generated from run directories by a command, so that the report is reproducible.
 57. As the learner, I want a learning note drafted for each concept at the end of every milestone, so that I can rewrite it in my own words.
-58. As the learner, I want `learning/00-pitch.md` updated every milestone, so that I always have a current two-minute pitch.
+58. As the learner, I want the pitch at the top of `NOTES.md` updated every milestone, so that I always have a current two-minute pitch.
 59. As the researcher, I want new terms added to `GLOSSARY.md` and hard-to-reverse decisions recorded as ADRs as they happen, so that the domain model stays current.
 
 ### Engineering

@@ -32,12 +32,12 @@ A wrong number is the worst defect in this project, so check these first:
 
 ## Consistency
 
-This project has no NOTES.md and no presentation notebook. A change is consistent when it agrees with:
+A change is consistent when it agrees with:
 
 - `README.md`, the technical report;
 - `GLOSSARY.md`: new terms are added, and code and docs use its vocabulary;
 - `.scratch/finbench-rag/spec.md` and the ticket being implemented;
 - `docs/adr/`: a new hard-to-reverse decision has an ADR;
-- `learning/`, when a note covers the changed concept.
+- `NOTES.md`, when a learning note covers the changed concept.
 
 FinanceBench data, PDFs and text never enter git; committed result files hold numbers and question ids only.

@@ -1,12 +1,20 @@
-# Parser comparison (PyMuPDF vs pdfplumber)
+# Notes
+
+My notes for learning and explaining this project, for example in an interview. Each concept gets one section, a learning note. Claude drafts it at the end of a milestone and I rewrite it in my own words; the rewriting is where the learning happens. Vocabulary follows `GLOSSARY.md`, and decisions link to `docs/adr/` instead of repeating them.
+
+## Pitch
+
+_The two-minute spoken pitch, updated at the end of every milestone. The first version is written at the M1 close-out (ticket 11)._
+
+## Parser comparison (PyMuPDF vs pdfplumber)
 
 _Draft by Claude at the end of ticket 07. Rewrite in your own words._
 
-## What it is
+### What it is
 
 A parser turns a filing's PDF into one text per page. Two parsers sit behind the same interface: PyMuPDF and pdfplumber. The comparison asks which one to use for everything that follows, and answers it with measurements on the dev split.
 
-## Why it is used here
+### Why it is used here
 
 Every later stage (chunking, retrieval, the generator's context) sees only what the parser produced, so a bad parser caps the whole system. SEC filings are full of tables, which is where parsers differ most.
 
@@ -18,7 +26,7 @@ Three things were measured:
 
 The alignment score alone would have been a biased criterion. PyMuPDF's scores are almost exactly 100, which means FinanceBench's page texts were very likely made with PyMuPDF. pdfplumber would lose on that measure even if its text were better.
 
-## What the experiment showed
+### What the experiment showed
 
 Alignment and speed, all 84 filings and 189 evidence pages (`results/parser_comparison.csv`):
 
@@ -46,7 +54,7 @@ Limits of this result:
 - BM25 only counts words. It cannot tell whether a table's rows and columns stay readable, and that may matter for the generator. If table questions fail in M2 because of garbled tables, this choice should be looked at again.
 - A "table page" is defined by a rule of thumb: at least a fifth of the page's tokens are numbers.
 
-## Interview questions
+### Interview questions
 
 - Q: Why not just pick the parser with the higher match rate against the benchmark's text?
   A: The benchmark's text was very likely produced by one of the two parsers, so that measure rewards agreement with it, not quality. I used it only to confirm page numbering and chose on dev retrieval and parse time.
