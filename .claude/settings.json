@@ -1,18 +1,3 @@
 {
-  "autoCompactWindow": 250000,
-  "disableClaudeAiConnectors": true,
-  "deniedMcpServers": [
-    { "serverName": "computer-use" },
-    { "serverName": "claude-in-chrome" },
-    { "serverName": "Claude_Browser" },
-    { "serverName": "visualize" },
-    { "serverName": "mcp-registry" },
-    { "serverName": "scheduled-tasks" }
-  ],
-  "skillOverrides": {
-    "ci-cd-and-automation": "off",
-    "security-and-hardening": "off",
-    "source-driven-development": "off",
-    "plugin-authoring": "off"
-  }
+  "autoCompactWindow": 250000
 }
