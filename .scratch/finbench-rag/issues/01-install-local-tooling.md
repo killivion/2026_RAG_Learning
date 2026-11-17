@@ -4,12 +4,12 @@
 
 **Blocked by:** None (can start immediately)
 
-**Status:** ready-for-human
+**Status:** done
 
 - [x] `uv --version` works in a new terminal
-- [ ] `docker run --rm hello-world` succeeds
+- [x] `docker run --rm hello-world` succeeds
 - [x] `claude -p "Reply with OK" --model claude-haiku-5-5` returns OK with no `ANTHROPIC_API_KEY` set
-- [ ] Ticket file updated with the installed versions
+- [x] Ticket file updated with the installed versions
 
 ## Comments
 
@@ -18,3 +18,4 @@
   - Docker 29.9.3 and Compose v5.7.0 are installed, but the engine was not running: `docker info` could not reach it, also after starting Docker Desktop and waiting. `docker run --rm hello-world` is therefore still open. Docker Desktop may be waiting for its first-run steps (licence, WSL2).
   - Claude Code 2.1.317 answers headless calls from inside the agent session (ticket 03). The check in a plain terminal without `ANTHROPIC_API_KEY` is still yours to run.
 - 2026-11-17: the user ran `claude -p "Reply with OK" --model claude-haiku-5-5` in the app's terminal panel with `ANTHROPIC_API_KEY` empty; it returned `OK`.
+- 2026-11-17 (Claude): Docker Desktop started from the agent session; once the engine was up, `docker run --rm hello-world` printed "Hello from Docker!". Installed: uv 0.13.8, Docker client and server 29.9.3, Compose v5.7.0, Claude Code 2.1.317. Gotcha: Docker Desktop does not start on login here, so start it before ticket 10 work; the first API call after start-up can return a 500 while the engine is still booting.
