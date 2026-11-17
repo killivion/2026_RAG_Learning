@@ -2,7 +2,7 @@
 
 My notes for learning and explaining this project, for example in an interview. The template and rules are in `~/.claude/CLAUDE.md`. Here, "What the experiment showed" gives the result in a sentence or two and links to `results/` for the numbers.
 
-To practise, run `/mattpocock-skills:grill-me` and ask to be quizzed on one section of this file.
+To practise, run `/mattpocock-skills:grilling` and ask to be quizzed on one section of this file.
 
 ## Pitch
 
